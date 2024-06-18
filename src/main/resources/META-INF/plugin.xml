@@ -1,0 +1,133 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.dodecahedron.plugin</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>CodeChrono</name>
+    <version>1.0</version>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="yuluo.guo@qq.com">yuluo</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        <head>
+            <style type="text/css">
+                span {
+                    color: #2675BF;
+                    font-weight: bold;
+                }
+
+                li{
+                    margin-top: 7px;
+                }
+            </style>
+        </head>
+        <body>
+
+<p style='margin-top:0px'>This plugin efficiently monitors and analyzes your workload, providing granular insights into
+    time utilization and effort expenditure across your IDEA projects, whether <span>daily</span> or <span>weekly</span>.
+</p>
+<P style='margin-top:10px'>Project Metrics：</p>
+<ul>
+    <li>Total Characters:35399</li>
+    <li>Total Revisions:17314</li>
+</ul>
+<p style='margin-top:10px'>Project-Specific Metrics</p>
+<ol>
+    <li>Total Characters: 1,256, Revisions: 256, Work Duration: 28m 51s</li>
+    <li>CodeChrono: Total Chars 13,862, Revs 13,199, Work Time 1h 22m 42s</li>
+    <li>Notebooks: Total Chars 59, Revs 27, Work Time 29s/li>
+    <li>demoTask: Total Chars 1, Revs 0, Work Time 3s</li>
+    <li>demoThread: Total Chars 8, Revs 0, Work Time 2m 31s</li>
+    <li>pluginTestEnd: Total Chars 2,899, Revs 3,832, Work Time 26m 55s</li>
+</ol>
+
+<p style='margin-top:10px'>Today's Activity:</p>
+
+<ul>
+    <li>IDEA Active Time: 2h 21m 34s</li>
+    <li>Idle Time: 19h 38m 21s</li>
+    <li>Time Efficiency: 11% </li>
+</ul>
+<p style='margin-top:20px'>Feedback and Support:</p>
+
+<p>If you encounter any bugs or have suggestions for improvement, please email us at <b>yuluo.guo@qq.com</b> or leave a
+    comment directly.</p>
+
+
+<!-- 中英分隔符 -->
+
+
+<p style='margin-top:0px'>这是一款用于统计工作量的插件，支持<span>按日</span>或<span>周</span>为单位查看IDEA中所有项目的工作时间使用详情。
+</p>
+<P style='margin-top:10px'>项目统计概览：</p>
+<ul>
+    <li>总字符量：35399</li>
+    <li>总回退数：17314</li>
+</ul>
+<p style='margin-top:10px'>项目详情</p>
+<ol>
+    <li>CodeChrono：总字符量13862，回退数13199，工作时长1小时22分42秒</li>
+    <li>Notebooks：总字符量59，回退数27，工作时长29秒</li>
+    <li>demoTask：总字符量1，回退数0，工作时长3秒</li>
+    <li>demoThread：总字符量8，回退数0，工作时长2分31秒</li>
+    <li>pluginTestEnd</li>
+</ol>
+<p style='margin-top:10px'>今日使用详情</p>
+
+<ul>
+    <li>IDEA使用时间：2小时21分34秒</li>
+    <li>19小时38分21秒</li>
+    <li>时间利用率：11%</li>
+</ul>
+<p style='margin-top:10px'>反馈和支持</p>
+<p>如果需要提交Bug或者提出建议,请发送邮箱: <b>yuluo.guo@qq.com</b>，或直接评论</p>
+
+        </body>
+
+    ]]></description>
+
+    <!-- <p>     【demo】总字符量【365】回退数【351】+占用时间【300s】</p>
+     <p>     【metting】总字符量【365】回退数【351】+占用时间【300s】</p>
+     <p>您今天使用idea【08:00:00】，闲置时间【07:00:00】，时间利用率【83.33%】</p>
+     <p>总字符量【365*2】，回退数【351*2】</p>-->
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <resource-bundle>CodeChronoBundle</resource-bundle>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+
+        <!--添加到界面右侧工具栏-->
+        <!--factoryClass指定ui界面的工厂类，createToolWindowContent调用工厂类的方法，初始化UI-->
+        <toolWindow factoryClass="com.codechrono.idea.plugin.ui.PluginWindowFactory"
+                    id="CodeChrono"
+                    anchor="right"
+                    secondary="true"
+                    icon="PluginIcons.ToolWindowBlue"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.DatabaseBasicService"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.EditRecordServiceImpl"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.DailyStatisticServiceImpl"/>
+    </extensions>
+
+
+    <application-components>
+        <component>
+            <implementation-class>com.codechrono.idea.plugin.component.CCApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+    <actions>
+        <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="测试名称" description="测试描述">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q" second-keystroke="shift ctrl E"/>
+        </action>
+    </actions>
+</idea-plugin>
