@@ -24,13 +24,12 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="4895e" class="javax.swing.JLabel">
+              <component id="e3c67" class="javax.swing.JLabel" binding="scopeLabel">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
-                  <enabled value="true"/>
-                  <text value="2024-05-22 17:24:02 TO 2024-05-22 17:24:02"/>
+                  <text value="2024-05-22 17:24:02 至 2024-05-22 17:24:02"/>
                 </properties>
               </component>
             </children>
@@ -48,6 +47,7 @@
               <component id="1b2b9" class="javax.swing.JTextArea" binding="a1TextArea">
                 <constraints/>
                 <properties>
+                  <editable value="false"/>
                   <lineWrap value="true"/>
                   <text value="您今天使用idea【5小时30分钟20秒】，闲置时间【】，时间利用率 总字符量【285】，回退数【30】 以下是按项目展示内容 【mall】总字符量【200】，回退数【25】，占用时间【3小时2分钟20秒】 【tyAi】总字符量【80】，回退数【3】，占用时间【3小时2分钟20秒】 【mall】总字符量【5】，回退数【2】，占用时间【3小时2分钟20秒】 "/>
                   <toolTipText value=""/>

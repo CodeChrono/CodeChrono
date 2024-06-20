@@ -6,6 +6,8 @@ import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.PropertyKey;
 
+import java.util.Locale;
+
 public final class CodeChronoBundle extends AbstractBundle {
     @NonNls
     public static final String ONEDAY_BUNDLE = "CodeChronoBundle";
@@ -14,9 +16,10 @@ public final class CodeChronoBundle extends AbstractBundle {
     private CodeChronoBundle() {
         super(ONEDAY_BUNDLE);
     }
-
+    //项目中可调用该静态方法，为组件文本赋值
     @NotNull
     public static String message(@NotNull @PropertyKey(resourceBundle = ONEDAY_BUNDLE) String key, @NotNull Object  ... params) {
+        //Locale.setDefault(Locale.ENGLISH);
         return INSTANCE.getMessage(key, params);
     }
 }
