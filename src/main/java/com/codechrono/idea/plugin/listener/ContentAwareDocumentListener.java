@@ -1,6 +1,5 @@
 package com.codechrono.idea.plugin.listener;
 
-import com.codechrono.idea.plugin.component.CCApplicationComponent;
 import com.codechrono.idea.plugin.entity.EditRecord;
 import com.codechrono.idea.plugin.service.EditRecordService;
 import com.codechrono.idea.plugin.service.impl.EditRecordServiceImpl;
@@ -17,23 +16,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 
 import java.util.Date;
 
-import static com.codechrono.idea.plugin.component.CCApplicationComponent.getFile;
-
 
 public class ContentAwareDocumentListener implements DocumentListener {
     private static final Logger LOGGER = Logger.getInstance(DocumentListener.class);
 
     @Override
     public void documentChanged(DocumentEvent event) {
-
         Document document = event.getDocument();
         VirtualFile virtualFile = FileDocumentManager.getInstance().getFile(document);
 
-
-        VirtualFile tmpvf = getFile(document);
-        if (tmpvf != null) {
-            System.out.println("包含vf");
-        }
         if (virtualFile != null) {
             String fileName = virtualFile.getName();
             String curProjectName = "";
@@ -70,7 +61,7 @@ public class ContentAwareDocumentListener implements DocumentListener {
             EditRecord data = new EditRecord();
 
             if (curProjectName.isEmpty()) {
-                curProjectName = CCApplicationComponent.getProjectName();
+                //curProjectName = getProjectName();//待完善
             }
             data.setProjectName(curProjectName);
             data.setCreateTime(new Date());

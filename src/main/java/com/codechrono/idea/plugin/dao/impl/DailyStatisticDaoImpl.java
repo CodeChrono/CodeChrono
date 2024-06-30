@@ -50,7 +50,8 @@ public class DailyStatisticDaoImpl extends BaseDAO<DailyStatistic> implements Da
                 "from daily_statistic\n" +
                 "where begin_time >= ? \n" +
                 "    and begin_time < ? \n"+
-                "group by project_name,statistic_type;";
+                "group by project_name,statistic_type \n" +
+                "order by begin_time asc;";
         return queryList(conn, sql, beginTime, endTime);
     }
 

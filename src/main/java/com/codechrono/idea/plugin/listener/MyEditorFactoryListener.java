@@ -6,6 +6,7 @@ import com.intellij.openapi.editor.event.EditorFactoryListener;
 
 public class MyEditorFactoryListener implements EditorFactoryListener {
     private static Editor editor;
+
     @Override
     public void editorCreated(EditorFactoryEvent event) {
         editor = event.getEditor();

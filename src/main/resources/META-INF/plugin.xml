@@ -34,24 +34,21 @@
 </p>
 <P style='margin-top:10px'>Project Metrics：</p>
 <ul>
-    <li>Total Characters:35399</li>
-    <li>Total Revisions:17314</li>
+    <li>Total characters:502</li>
+    <li>Total Revisions:191</li>
 </ul>
 <p style='margin-top:10px'>Project-Specific Metrics</p>
 <ol>
-    <li>Total Characters: 1,256, Revisions: 256, Work Duration: 28m 51s</li>
-    <li>CodeChrono: Total Chars 13,862, Revs 13,199, Work Time 1h 22m 42s</li>
-    <li>Notebooks: Total Chars 59, Revs 27, Work Time 29s/li>
-    <li>demoTask: Total Chars 1, Revs 0, Work Time 3s</li>
-    <li>demoThread: Total Chars 8, Revs 0, Work Time 2m 31s</li>
-    <li>pluginTestEnd: Total Chars 2,899, Revs 3,832, Work Time 26m 55s</li>
+    <li>demoThread Total Chars【46】,Revs【16】,WorkTime 0h3m44s</li>
+    <li>CodeChrono Total chars【265】,Revs【163】,WorkTime 0hóm55s</li>
+    <li>sqlHandle Total Chars(0】,Revs(12】,WorkTime 0h0m34s</li>
 </ol>
 
 <p style='margin-top:10px'>Today's Activity:</p>
 
 <ul>
-    <li>IDEA Active Time: 2h 21m 34s</li>
-    <li>Idle Time: 19h 38m 21s</li>
+    <li>IDEA Active Time: : 0h 11m 15s/li>
+    <li>Idle Time: 96h 29m 40s</li>
     <li>Time Efficiency: 11% </li>
 </ul>
 <p style='margin-top:20px'>Feedback and Support:</p>
@@ -62,27 +59,26 @@
 
 <!-- 中英分隔符 -->
 
-
+<p/>
+<p/>
 <p style='margin-top:0px'>这是一款用于统计工作量的插件，支持<span>按日</span>或<span>周</span>为单位查看IDEA中所有项目的工作时间使用详情。
 </p>
 <P style='margin-top:10px'>项目统计概览：</p>
 <ul>
-    <li>总字符量：35399</li>
-    <li>总回退数：17314</li>
+    <li>总字符量：502</li>
+    <li>总回退数：191</li>
 </ul>
 <p style='margin-top:10px'>项目详情</p>
 <ol>
-    <li>CodeChrono：总字符量13862，回退数13199，工作时长1小时22分42秒</li>
-    <li>Notebooks：总字符量59，回退数27，工作时长29秒</li>
-    <li>demoTask：总字符量1，回退数0，工作时长3秒</li>
-    <li>demoThread：总字符量8，回退数0，工作时长2分31秒</li>
-    <li>pluginTestEnd</li>
+    <li>CodeChrono总字符量【265】，回退数【163】，占用时间0小时6分55秒</li>
+    <li>demoThread总字符量【46】，回退数【16】，占用时间0小时3分44秒</li>
+    <li>sqlHandle总字符量【0】，回退数【12】，占用时间0小时0分34秒</li>
 </ol>
 <p style='margin-top:10px'>今日使用详情</p>
 
 <ul>
-    <li>IDEA使用时间：2小时21分34秒</li>
-    <li>19小时38分21秒</li>
+    <li>IDEA使用时间：0小时11分15秒</li>
+    <li>闲置时间：0小时9分26秒</li>
     <li>时间利用率：11%</li>
 </ul>
 <p style='margin-top:10px'>反馈和支持</p>
@@ -92,10 +88,7 @@
 
     ]]></description>
 
-    <!-- <p>     【demo】总字符量【365】回退数【351】+占用时间【300s】</p>
-     <p>     【metting】总字符量【365】回退数【351】+占用时间【300s】</p>
-     <p>您今天使用idea【08:00:00】，闲置时间【07:00:00】，时间利用率【83.33%】</p>
-     <p>总字符量【365*2】，回退数【351*2】</p>-->
+
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
@@ -118,12 +111,21 @@
         <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.DailyStatisticServiceImpl"/>
     </extensions>
 
-
+<!--
     <application-components>
         <component>
             <implementation-class>com.codechrono.idea.plugin.component.CCApplicationComponent</implementation-class>
         </component>
-    </application-components>
+    </application-components>-->
+    <applicationListeners>
+        <listener class="com.codechrono.idea.plugin.listener.MyAppLifecycleListener"
+                  topic="com.intellij.ide.AppLifecycleListener"/>
+
+    </applicationListeners>
+    <projectListeners>
+        <listener class="com.codechrono.idea.plugin.listener.MyEditorFactoryListener" topic="com.intellij.openapi.editor.event.EditorFactoryListener"/>
+    </projectListeners>
+
     <actions>
         <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="测试名称" description="测试描述">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>

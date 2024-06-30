@@ -1,15 +1,10 @@
 package com.codechrono.idea.plugin.utils;
 
-
 import com.codechrono.idea.plugin.entity.DailyStatistic;
-import com.codechrono.idea.plugin.entity.StatisticType;
 import com.codechrono.idea.plugin.service.DailyStatisticService;
 import com.codechrono.idea.plugin.service.impl.DailyStatisticServiceImpl;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
 
 public class DataCenter {
     public static String fileName = "CodeChrono";
@@ -35,43 +30,105 @@ public class DataCenter {
 
     }
 
-
     public StringBuffer getDailyStatisticTeContent(Long beginTime, Long endTime) {
+        if ("zh".equals(Locale.getDefault().getLanguage())) {
+            return getDailyStatisticTeContentZh(beginTime, endTime);
+        } else {
+            return getDailyStatisticTeContentEu(beginTime, endTime);
+        }
+    }
 
+    public StringBuffer getDailyStatisticTeContentEu(Long beginTime, Long endTime) {
         List<DailyStatistic> dailyStatistic = dailyStatisticService.getOneDayDailyStatistic(beginTime, endTime);
-        if(dailyStatistic == null) dailyStatistic=new ArrayList<>() ;
+        if (dailyStatistic == null) {
+            dailyStatistic = new ArrayList<>();
+
+        }
+
 
         teContent = new StringBuffer();
-        teContent.append("\n以下是按项目展示内容:");
+        teContent.append("\nProject-Specific Metrics");
         int allNum = 0;
         int deleteNum = 0;
         long useTime = 0;
-        for (DailyStatistic data : dailyStatistic) {
-            teContent.append("\n  【" + data.getProjectName() + "】总字符量【" + data.getInsertNum() + "】，回退数【" + data.getDeleteNum() + "】，占用时间【" + longToTimeString(data.getUseTime()) + "】");
-            allNum = allNum + data.getInsertNum().intValue() + data.getDeleteNum().intValue();
-            ;
-            deleteNum = deleteNum + data.getDeleteNum().intValue();
-            ;
-            useTime = useTime + data.getUseTime();
+        //for (DailyStatistic data : dailyStatistic) {
+        for (int i = 0; i < dailyStatistic.size(); i++) {
+            teContent.append("\n  " + (i + 1) + "." + dailyStatistic.get(i).getProjectName()
+                    + "Total Chars【" + dailyStatistic.get(i).getInsertNum()
+                    + "】，Revs【" + dailyStatistic.get(i).getDeleteNum() +
+                    "】，WorkTime " + longToTimeString(dailyStatistic.get(i).getUseTime()) + "");
+
+            allNum = allNum + dailyStatistic.get(i).getInsertNum().intValue() + dailyStatistic.get(i).getDeleteNum().intValue();
+            deleteNum = deleteNum + dailyStatistic.get(i).getDeleteNum().intValue();
+            useTime = useTime + dailyStatistic.get(i).getUseTime();
         }
         long minTime = 0;
         long maxTime = 0;
         long workTime = 0;
         if (dailyStatistic != null && dailyStatistic.size() > 0) {
             minTime = dailyStatistic.stream().findFirst().get().getBeginTime();
-            maxTime = dailyStatistic.get(dailyStatistic.size() - 1).getEndTime();
+            //maxTime = dailyStatistic.get(dailyStatistic.size() - 1).getEndTime();
+            maxTime = dailyStatistic.stream().max(Comparator.comparingLong(DailyStatistic::getEndTime)).get().getEndTime();
             workTime = maxTime - minTime;
         }
-        int timeRatio = workTime > 0 ? Math.round((float) useTime / workTime * 100)  : 0;
+        int timeRatio = workTime > 0 ? Math.round((float) useTime / workTime * 100) : 0;
 
-        teContent.append(String.format("\n您今天使用idea【%s】，闲置时间【%s】，时间利用率【%d%%】",
-                longToTimeString(useTime), longToTimeString(workTime - useTime),timeRatio));
-        teContent.append(String.format("\n总字符量【%d】，回退数【%d】", allNum, deleteNum, timeRatio));
+        teContent.append("\nToday's Activity");
+        teContent.append(String.format("\n  • IDEA Active Time：%s \n  • Idle Time：%s\n  • Time Efficiency：%d%%",
+                longToTimeString(useTime), longToTimeString(workTime - useTime), timeRatio));
+
+        teContent.insert(1, String.format("\n  • Total Characters：%d \n  • Total Revisions：%d\n", allNum, deleteNum));
+        teContent.insert(1, "Project Metrics");
+
+        //删除当天记录，待修改
+        return teContent;
+    }
+
+    public StringBuffer getDailyStatisticTeContentZh(Long beginTime, Long endTime) {
+
+        List<DailyStatistic> dailyStatistic = dailyStatisticService.getOneDayDailyStatistic(beginTime, endTime);
+        if (dailyStatistic == null) {
+            dailyStatistic = new ArrayList<>();
+        }
+
+        teContent = new StringBuffer();
+        teContent.append("\n项目详情");
+        int allNum = 0;
+        int deleteNum = 0;
+        long useTime = 0;
+        //for (DailyStatistic data : dailyStatistic) {
+        for (int i = 0; i < dailyStatistic.size(); i++) {
+            teContent.append("\n  " + (i + 1) + "." + dailyStatistic.get(i).getProjectName()
+                    + "总字符量【" + dailyStatistic.get(i).getInsertNum()
+                    + "】，回退数【" + dailyStatistic.get(i).getDeleteNum() +
+                    "】，占用时间" + longToTimeString(dailyStatistic.get(i).getUseTime()) + "");
+
+            allNum = allNum + dailyStatistic.get(i).getInsertNum().intValue() + dailyStatistic.get(i).getDeleteNum().intValue();
+            deleteNum = deleteNum + dailyStatistic.get(i).getDeleteNum().intValue();
+            useTime = useTime + dailyStatistic.get(i).getUseTime();
+        }
+        long minTime = 0;
+        long maxTime = 0;
+        long workTime = 0;
+        if (dailyStatistic != null && dailyStatistic.size() > 0) {
+            minTime = dailyStatistic.stream().findFirst().get().getBeginTime();
+            maxTime = dailyStatistic.stream().max(Comparator.comparingLong(DailyStatistic::getEndTime)).get().getEndTime();
+            workTime = maxTime - minTime;
+        }
+        int timeRatio = workTime > 0 ? Math.round((float) useTime / workTime * 100) : 0;
+
+        teContent.append("\n今日使用详情");
+        teContent.append(String.format("\n  • IDEA使用时间：%s \n  • 闲置时间：%s\n  • 时间利用率%d%%",
+                longToTimeString(useTime), longToTimeString(workTime - useTime), timeRatio));
+
+        teContent.insert(1, String.format("\n  • 总字符量：%d \n  • 回退数：%d\n", allNum, deleteNum));
+        teContent.insert(1, "项目统计概览");
 
         //删除当天记录，待修改
         return teContent;
 
     }
+
     /*
     public StringBuffer getDailyStatisticTeContent(String typeSelected) {
         Calendar calendar = Calendar.getInstance();
@@ -135,20 +192,15 @@ public class DataCenter {
     }
     */
     public String longToTimeString(long timestamp) {
-        timestamp=timestamp/1000;
+        timestamp = timestamp / 1000;
         long hours = timestamp / 3600; // 除以3600秒(1小时)得到小时数
         long minutes = (timestamp % 3600) / 60; // 计算分钟数
         long secs = timestamp % 60; // 剩余的秒数
-
-        return String.format("%02d:%02d:%02d", hours, minutes, secs);
+        return String.format("%d"+message("common.hour")
+                +"%d"+message("common.minutes")
+                +"%d"+message("common.seconds"), hours, minutes, secs);
+        //return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
-    //暂时弃用
-    public String timestampToString(long timestamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(timestamp);
-        return String.format("%02d:%02d:%02d", calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), calendar.get(Calendar.SECOND));
-    }
-
 
 
 }
