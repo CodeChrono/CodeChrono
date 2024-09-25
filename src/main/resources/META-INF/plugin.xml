@@ -1,20 +1,17 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
-<idea-plugin>
+<idea-plugin require-restart="false">
     <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
     <id>com.dodecahedron.plugin</id>
 
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>CodeChrono</name>
-    <version>1.0</version>
+    <version>1.0.3</version>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="yuluo.guo@qq.com">yuluo</vendor>
+    <vendor email="924066173@qq.com">yuluo</vendor>
 
-    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
-         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
-         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description><![CDATA[
+     <description><![CDATA[
         <head>
             <style type="text/css">
                 span {
@@ -82,21 +79,14 @@
     <li>时间利用率：11%</li>
 </ul>
 <p style='margin-top:10px'>反馈和支持</p>
-<p>如果需要提交Bug或者提出建议,请发送邮箱: <b>yuluo.guo@qq.com</b>，或直接评论</p>
 
-        </body>
+<p>如果需要提交Bug或者提出建议,请发送邮箱: <b>924066173@qq.com</b>，或直接评论</p>
+<a target="_blank" href="https://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=IRgTFREXFxAWEmFQUA9CTkw" style="text-decoration:none;"><img src="https://rescdn.qqmail.com/zh_CN/htmledition/images/function/qm_open/ico_mailme_11.png"/></a>
 
     ]]></description>
-
-
-    <!-- Product and plugin compatibility requirements.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
 
     <resource-bundle>CodeChronoBundle</resource-bundle>
-
-    <!-- Extension points defined by the plugin.
-         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
 
         <!--添加到界面右侧工具栏-->
@@ -107,23 +97,26 @@
                     secondary="true"
                     icon="PluginIcons.ToolWindowBlue"/>
         <applicationService serviceImplementation="com.codechrono.idea.plugin.service.DatabaseBasicService"/>
-        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.EditRecordServiceImpl"/>
-        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.DailyStatisticServiceImpl"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.EditRecordService"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.DailyStatisticService"/>
+        <applicationService serviceImplementation="com.codechrono.idea.plugin.service.impl.KeyChronoService"/>
+
     </extensions>
 
-<!--
-    <application-components>
-        <component>
-            <implementation-class>com.codechrono.idea.plugin.component.CCApplicationComponent</implementation-class>
-        </component>
-    </application-components>-->
+    <!--
+        <application-components>
+            <component>
+                <implementation-class>com.codechrono.idea.plugin.component.CCApplicationComponent</implementation-class>
+            </component>
+        </application-components>-->
     <applicationListeners>
         <listener class="com.codechrono.idea.plugin.listener.MyAppLifecycleListener"
                   topic="com.intellij.ide.AppLifecycleListener"/>
 
     </applicationListeners>
     <projectListeners>
-        <listener class="com.codechrono.idea.plugin.listener.MyEditorFactoryListener" topic="com.intellij.openapi.editor.event.EditorFactoryListener"/>
+        <listener class="com.codechrono.idea.plugin.listener.MyEditorFactoryListener"
+                  topic="com.intellij.openapi.editor.event.EditorFactoryListener"/>
     </projectListeners>
 
     <actions>
@@ -132,4 +125,6 @@
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q" second-keystroke="shift ctrl E"/>
         </action>
     </actions>
+
 </idea-plugin>
+

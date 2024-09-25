@@ -2,8 +2,8 @@ package com.codechrono.idea.plugin.listener;
 
 import com.codechrono.idea.plugin.entity.DailyStatistic;
 import com.codechrono.idea.plugin.entity.StatisticType;
-import com.codechrono.idea.plugin.service.DailyStatisticService;
-import com.codechrono.idea.plugin.service.impl.DailyStatisticServiceImpl;
+import com.codechrono.idea.plugin.service.DailyStatisticInterface;
+import com.codechrono.idea.plugin.service.impl.DailyStatisticService;
 import com.intellij.ide.IdeEventQueue.EventDispatcher;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,7 @@ import java.util.List;
 
 public final class FocusDispatcher implements EventDispatcher {
 
-    private DailyStatisticService dailyStatisticService = DailyStatisticServiceImpl.getInstance();
+    private DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
     // 使用匿名数组列表初始化并添加元素
     public List<DailyStatistic> cacheDailyList = new ArrayList<DailyStatistic>();
 

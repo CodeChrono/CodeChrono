@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.codechrono"
-version = "1.0.2"
+version = "1.0.3"
 
 
 repositories {
@@ -38,7 +38,7 @@ dependencies {
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
-    //options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
 

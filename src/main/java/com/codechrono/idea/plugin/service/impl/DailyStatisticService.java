@@ -3,7 +3,7 @@ package com.codechrono.idea.plugin.service.impl;
 import com.codechrono.idea.plugin.dao.DailyStatisticDao;
 import com.codechrono.idea.plugin.dao.impl.DailyStatisticDaoImpl;
 import com.codechrono.idea.plugin.entity.DailyStatistic;
-import com.codechrono.idea.plugin.service.DailyStatisticService;
+import com.codechrono.idea.plugin.service.DailyStatisticInterface;
 import com.codechrono.idea.plugin.service.DatabaseBasicService;
 import com.intellij.openapi.application.ApplicationManager;
 
@@ -12,18 +12,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
-public class DailyStatisticServiceImpl implements DailyStatisticService {
+public class DailyStatisticService implements DailyStatisticInterface {
     private final DatabaseBasicService databaseBasicService = ApplicationManager.getApplication().getService(DatabaseBasicService.class);
 
     private final DailyStatisticDao dailyStatisticDao = DailyStatisticDaoImpl.getInstance();
 
-    public static DailyStatisticServiceImpl getInstance() {
-        return ApplicationManager.getApplication().getService(DailyStatisticServiceImpl.class);
+    public static DailyStatisticService getInstance() {
+        return ApplicationManager.getApplication().getService(DailyStatisticService.class);
     }
 
-    private DailyStatisticServiceImpl() {
+    private DailyStatisticService() {
     }
 
     @Override
@@ -40,11 +40,11 @@ public class DailyStatisticServiceImpl implements DailyStatisticService {
     }
 
     @Override
-    public DailyStatistic insert(DailyStatistic notebook) {
+    public DailyStatistic insert(DailyStatistic dailyStatistic) {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return dailyStatisticDao.insert(conn, notebook);
+            return dailyStatisticDao.insert(conn, dailyStatistic);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {

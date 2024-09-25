@@ -3,30 +3,31 @@ package com.codechrono.idea.plugin.ui;
 
 import com.codechrono.idea.plugin.entity.StatisticType;
 
+import com.codechrono.idea.plugin.service.KeyService;
 import com.codechrono.idea.plugin.utils.DataCenter;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.DialogWrapper;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.wm.ToolWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
 
 public class MainForm {
-
+    private static Logger logger = LoggerFactory.getLogger("sz.Root");
     private JPanel contentJpanel;
     private JTextArea a1TextArea;
     private JButton refreshButton;
     private JRadioButton dayRadioButton;
     private JRadioButton weekRadioButton;
     private JLabel scopeLabel;
+    private ButtonGroup type;
 
 
     public MainForm(Project project, ToolWindow toolWindow) {
@@ -41,14 +42,25 @@ public class MainForm {
         String selected = dayRadioButton.isSelected() ? StatisticType.DAY : (weekRadioButton.isSelected() ? StatisticType.WEEK : StatisticType.DAY);
 
         showContent();
-        //a1TextArea.setText(dataCenter.getDailyStatisticTeContent(selected).toString());
-        //dayRadioButton.setText(message("contentJpanel.dayRadioButton.text"));
+         //dayRadioButton.setText(message("contentJpanel.dayRadioButton.text"));
         //weekRadioButton.setText(message("contentJpanel.weekRadioButton.text"));
 
         return contentJpanel;
     }
 
     private void showContent() {
+        logger.info("logback showContent");
+        if(!KeyService.validateKeyLocal()){
+            a1TextArea.setText("校验密钥失败，无法使用");
+            Messages.showInfoMessage( "校验密钥失败,如需继续使用请获取API Key", "CodeChrono");
+
+            SettingDialog dialog = new SettingDialog(null);
+            dialog.show();
+            if(dialog.getExitCode() == DialogWrapper.OK_EXIT_CODE ){
+                refreshButton.doClick();
+            }
+            return ;
+        }
         //类型：天/周
         String selected = dayRadioButton.isSelected() ? StatisticType.DAY : (weekRadioButton.isSelected() ? StatisticType.WEEK : StatisticType.DAY);
 

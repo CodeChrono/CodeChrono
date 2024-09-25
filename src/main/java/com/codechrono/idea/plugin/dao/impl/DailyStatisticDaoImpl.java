@@ -63,22 +63,22 @@ public class DailyStatisticDaoImpl extends BaseDAO<DailyStatistic> implements Da
         String sql = "insert into daily_statistic(begin_time,end_time,statistic_type,insert_num,delete_num,code_ratio,use_time,idle_time,time_ratio,project_name) values(?,?,?,?,?,?,?,?,?,?)";
         int size = ary.length;
         if (size == 1) {
-            DailyStatistic note = ary[0];
-            update(conn, sql, note.getBeginTime(), note.getEndTime(), note.getStatisticType(), note.getInsertNum(), note.getDeleteNum(), note.getCodeRatio(), note.getUseTime(), note.getIdleTime(), note.getTimeRatio(),note.getProjectName());
+            DailyStatistic dailyStatistic = ary[0];
+            update(conn, sql, dailyStatistic.getBeginTime(), dailyStatistic.getEndTime(), dailyStatistic.getStatisticType(), dailyStatistic.getInsertNum(), dailyStatistic.getDeleteNum(), dailyStatistic.getCodeRatio(), dailyStatistic.getUseTime(), dailyStatistic.getIdleTime(), dailyStatistic.getTimeRatio(),dailyStatistic.getProjectName());
         } else {
             Object[][] args = new Object[size][12];
             for (int i = 0; i < size; i++) {
-                DailyStatistic note = ary[i];
-                args[i][0] = note.getBeginTime();
-                args[i][1] = note.getEndTime();
-                args[i][2] = note.getStatisticType();
-                args[i][3] = note.getInsertNum();
-                args[i][4] = note.getDeleteNum();
-                args[i][5] = note.getCodeRatio();
-                args[i][6] = note.getUseTime();
-                args[i][7] = note.getIdleTime();
-                args[i][8] = note.getTimeRatio();
-                args[i][9] = note.getProjectName();
+                DailyStatistic dailyStatistic = ary[i];
+                args[i][0] = dailyStatistic.getBeginTime();
+                args[i][1] = dailyStatistic.getEndTime();
+                args[i][2] = dailyStatistic.getStatisticType();
+                args[i][3] = dailyStatistic.getInsertNum();
+                args[i][4] = dailyStatistic.getDeleteNum();
+                args[i][5] = dailyStatistic.getCodeRatio();
+                args[i][6] = dailyStatistic.getUseTime();
+                args[i][7] = dailyStatistic.getIdleTime();
+                args[i][8] = dailyStatistic.getTimeRatio();
+                args[i][9] = dailyStatistic.getProjectName();
 
             }
             updateBatch(conn, sql, args);
@@ -86,16 +86,14 @@ public class DailyStatisticDaoImpl extends BaseDAO<DailyStatistic> implements Da
     }
 
     @Override
-    public DailyStatistic insert(Connection conn, DailyStatistic note) {
-        if (note == null) {
+    public DailyStatistic insert(Connection conn, DailyStatistic dailyStatistic) {
+        if (dailyStatistic == null) {
             return null;
         }
         String sql = "insert into daily_statistic(begin_time,end_time,statistic_type,insert_num,delete_num,code_ratio,use_time,idle_time,time_ratio,project_name) values(?,?,?,?,?,?,?,?,?,?)";
 
-        update(conn, sql, note.getBeginTime(), note.getEndTime(), note.getStatisticType(), note.getInsertNum(), note.getDeleteNum(), note.getCodeRatio(), note.getUseTime(), note.getIdleTime(), note.getTimeRatio(),note.getProjectName());
-        //String sqlSelect = SELECT_SQL + "  limit 1;";
-       // return getBean(conn, sqlSelect);
-        return note;
+        update(conn, sql, dailyStatistic.getBeginTime(), dailyStatistic.getEndTime(), dailyStatistic.getStatisticType(), dailyStatistic.getInsertNum(), dailyStatistic.getDeleteNum(), dailyStatistic.getCodeRatio(), dailyStatistic.getUseTime(), dailyStatistic.getIdleTime(), dailyStatistic.getTimeRatio(),dailyStatistic.getProjectName());
+        return dailyStatistic;
     }
         @Override
         public void delete (Connection conn, Integer id){

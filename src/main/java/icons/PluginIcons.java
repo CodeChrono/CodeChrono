@@ -16,6 +16,7 @@ public interface PluginIcons {
      *  ToolWindow使用的图标(蓝色渐变) 尺寸13*13
      */
     Icon ToolWindowBlue = IconLoader.getIcon("/icons/tool_window.svg", PluginIcons.class);
+    Icon WechatMiniPng = IconLoader.getIcon("/icons/image.png.svg", PluginIcons.class);
 
 
 }

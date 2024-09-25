@@ -3,7 +3,7 @@ package com.codechrono.idea.plugin.dao;
 import java.sql.Connection;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
 public interface CommonDao<T> {
 

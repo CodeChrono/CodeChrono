@@ -1,20 +1,19 @@
 package com.codechrono.idea.plugin.listener;
 
 import com.codechrono.idea.plugin.entity.EditRecord;
-import com.codechrono.idea.plugin.service.EditRecordService;
-import com.codechrono.idea.plugin.service.impl.EditRecordServiceImpl;
+import com.codechrono.idea.plugin.service.EditRecordInterface;
+import com.codechrono.idea.plugin.service.impl.EditRecordService;
 import com.codechrono.idea.plugin.entity.EditType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
+
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.roots.ProjectFileIndex;
 import com.intellij.openapi.vfs.VirtualFile;
-
-import java.util.Date;
 
 
 public class ContentAwareDocumentListener implements DocumentListener {
@@ -39,49 +38,48 @@ public class ContentAwareDocumentListener implements DocumentListener {
                     break;
                 }
             }
-            int offset = event.getOffset();
             int oldLength = event.getOldLength();
-            String insertedText = event.getNewFragment().toString(); // 新插入的文本
-            String removedText = document.getCharsSequence().subSequence(offset, offset + oldLength).toString(); // 被替换或删除的文本
+            //DocumentEventImpl documentImpl = (DocumentEventImpl) event;
 
-            if (oldLength > 0) { // 删除或替换
-                System.out.println("In file [" + fileName + "], removed [" + removedText + "] at position " + offset);
-                LOGGER.info("In file [" + fileName + "], removed [" + removedText + "] at position " + offset);
-            }
-            if (!insertedText.isEmpty()) { // 插入
-                System.out.println("In file [" + fileName + "], added [" + insertedText + "] at position " + offset);
-                LOGGER.info("In file [" + fileName + "], added [" + insertedText + "] at position " + offset);
-            }
+            // 新插入的文本
+            String insertedText = event.getNewFragment().toString();
+            // 被替换或删除的文本
+            String removedText = event.getOldFragment().toString();
+            // document.getCharsSequence().subSequence(offset, offset + oldLength).toString(); // 被替换或删除的文本
+
+
             if (oldLength > 0 && !insertedText.isEmpty()) {
                 System.out.println("同时插入和删除");
             }
 
             //修改内容存表
-            EditRecordService notebookService = EditRecordServiceImpl.getInstance();
+            EditRecordInterface editRecordService = EditRecordService.getInstance();
             EditRecord data = new EditRecord();
 
             if (curProjectName.isEmpty()) {
-                //curProjectName = getProjectName();//待完善
+                curProjectName = fileName;//待完善
             }
             data.setProjectName(curProjectName);
-            data.setCreateTime(new Date());
+            data.setCreateTime(System.currentTimeMillis());
             //去除空格' '
             long insrtEmptCount = insertedText.chars().filter(c -> c == ' ').count();
             long deleteEmptyCount = removedText.chars().filter(c -> c == ' ').count();
             if (oldLength > 0) {
                 data.setEditType(EditType.DELETE);
                 data.setEditNum(removedText.replace("\n", "").length() - deleteEmptyCount);
-                data.setContent(removedText);
+                data.setContent(oldLength <= 500 ? removedText : removedText.substring(0, 497) + "...");
+
                 if (data.getEditNum().intValue() > 0) {
-                    notebookService.insert(data);
+                    editRecordService.insert(data);
                 }
             }
             if (!insertedText.isEmpty()) {
                 data.setEditType(EditType.INSERT);
                 data.setEditNum(insertedText.replace("\n", "").length() - insrtEmptCount);
-                data.setContent(insertedText);
+                data.setContent(data.getEditNum().intValue() <= 500 ? insertedText : "...");
+
                 if (data.getEditNum().intValue() > 0) {
-                    notebookService.insert(data);
+                    editRecordService.insert(data);
                 }
             }
 
@@ -90,4 +88,10 @@ public class ContentAwareDocumentListener implements DocumentListener {
             LOGGER.warn("Document change event without associated VirtualFile.");
         }
     }
+
+
+    public String getProjectName() {
+        return "Unidentified";
+    }
+
 }

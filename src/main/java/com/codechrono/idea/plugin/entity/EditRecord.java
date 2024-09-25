@@ -1,11 +1,11 @@
 package com.codechrono.idea.plugin.entity;
 
-import java.util.Date;
 
 public class EditRecord {
+    private Integer id;
 
-    private Date createTime;
-    private EditType editType;
+    private Long createTime;
+    private String editType;
     private Number editNum;
     private String content;
     private String projectName;
@@ -18,20 +18,14 @@ public class EditRecord {
         this.projectName = projectName;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
 
     public EditType getEditType() {
-        return editType;
+        return EditType.fromString(this.editType);
     }
 
     public void setEditType(EditType editType) {
-        this.editType = editType;
+        this.editType = editType.toString();
     }
 
     public Number getEditNum() {
@@ -49,6 +43,22 @@ public class EditRecord {
     public void setContent(String content) {
         this.content = content;
     }
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    public Long getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Long createTime) {
+        this.createTime = createTime;
+    }
+
+
 
 
 }

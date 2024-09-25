@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
 public interface EditRecordDao extends CommonDao<EditRecord> {
 
@@ -16,8 +16,6 @@ public interface EditRecordDao extends CommonDao<EditRecord> {
 
     List<String> getTitles(Connection conn);
 
-
-
-
+    EditRecord findFirst(Connection conn);
 
 }

@@ -1,9 +1,9 @@
 package com.codechrono.idea.plugin.service;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
-public interface CommonService<T> {
+public interface CommonInterface<T> {
 
     /**
      * 增: 将对象添加到数据库中

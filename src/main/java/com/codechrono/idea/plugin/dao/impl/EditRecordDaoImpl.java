@@ -7,7 +7,7 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
 public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecordDao {
     private static EditRecordDaoImpl instance;
@@ -22,7 +22,7 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
         return instance;
     }
 
-    private static final String SELECT_SQL = "select id from edit_record ";
+    private static final String SELECT_SQL = "select * from edit_record ";
 
     @Override
     public void insert(Connection conn, EditRecord[] notes) {
@@ -59,24 +59,24 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
 
     @Override
     public void delete(Connection conn, Integer id) {
-        String sql = "delete from note where id =?";
+        String sql = "delete from edit_record where id =?";
         update(conn, sql, id);
     }
 
     @Override
-    public void update(Connection conn, EditRecord[] notes) {
-        if (notes == null || notes.length == 0) {
+    public void update(Connection conn, EditRecord[] editRecords) {
+        if (editRecords == null || editRecords.length == 0) {
             return;
         }
-        String sql = "update note set title=? ,show_order=?,chapter_id=?,notebook_id=?,create_time=?,update_time=?,content=?,description=?,source=?,type=?,offset_start=?,offset_end=?,image_records=? where id =?";
-        int size = notes.length;
+        String sql = "update edit_record set edit_type=?,edit_num=?,content=?,project_name=?,create_time=? where id =?";
+        int size = editRecords.length;
         if (size == 1) {
-            EditRecord note = notes[0];
-            update(conn, sql, note.getEditType(), note.getEditNum(), note.getContent(),  note.getProjectName(), note.getCreateTime());
+            EditRecord editRecord = editRecords[0];
+            update(conn, sql, editRecord.getEditType(), editRecord.getEditNum(), editRecord.getContent(),  editRecord.getProjectName(), editRecord.getCreateTime());
         } else {
             Object[][] args = new Object[size][14];
             for (int i = 0; i < size; i++) {
-                EditRecord note = notes[i];
+                EditRecord note = editRecords[i];
                 args[i][0] = note.getEditType();
                 args[i][1] = note.getEditNum();
                 args[i][2] = note.getContent();
@@ -88,9 +88,9 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
     }
 
     @Override
-    public void update(Connection conn, EditRecord note) {
-        String sql = "update note set title=?,show_order=?,chapter_id=?,notebook_id=?,create_time=?,update_time=?,content=?,description=?,source=?,type=?,offset_start=?,offset_end=?,image_records=? where id =?";
-        update(conn, sql, note.getEditType(), note.getEditNum(), note.getContent(),  note.getProjectName(), note.getCreateTime());
+    public void update(Connection conn, EditRecord editRecord) {
+        String sql = "update edit_record set edit_type=?,edit_num=?,content=?,project_name=?,create_time=? where id =?";
+        update(conn, sql, editRecord.getEditType(), editRecord.getEditNum(), editRecord.getContent(),  editRecord.getProjectName(), editRecord.getCreateTime());
     }
 
     @Override
@@ -101,10 +101,8 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
 
     @Override
     public void exchangeShowOrder(Connection conn, Integer showOrder1, Integer showOrder2) {
-        String sql = "UPDATE note " +
-                "SET show_order = (CASE WHEN show_order = ? THEN ? " +
-                "                  WHEN show_order = ?  THEN ? END )" +
-                "where show_order=? or show_order=?";
+
+        String sql = "update edit_record set show_order = (case when show_order = ? then ? when show_order = ? then ? end) where show_order = ? or show_order = ?";
         update(conn, sql, showOrder1, showOrder2, showOrder2, showOrder1, showOrder1, showOrder2);
 
     }
@@ -117,12 +115,19 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
 
     @Override
     public List<EditRecord> findAll(Connection connection) {
+
         return null;
     }
 
     @Override
     public List<String> getTitles(Connection conn) {
         return null;
+    }
+
+    @Override
+    public EditRecord findFirst(Connection conn) {
+        String sql = "select create_time from edit_record order by id limit 1";
+        return getBean(conn, sql);
     }
 
 

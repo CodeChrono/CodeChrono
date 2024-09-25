@@ -4,7 +4,7 @@ import com.codechrono.idea.plugin.dao.EditRecordDao;
 import com.codechrono.idea.plugin.dao.impl.EditRecordDaoImpl;
 import com.codechrono.idea.plugin.entity.EditRecord;
 import com.codechrono.idea.plugin.service.DatabaseBasicService;
-import com.codechrono.idea.plugin.service.EditRecordService;
+import com.codechrono.idea.plugin.service.EditRecordInterface;
 import com.intellij.openapi.application.ApplicationManager;
 
 import java.sql.Connection;
@@ -12,17 +12,17 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * @author LeeWyatt
+ * @author Codechrono
  */
-public class EditRecordServiceImpl implements EditRecordService {
+public class EditRecordService implements EditRecordInterface {
     private final DatabaseBasicService databaseBasicService = ApplicationManager.getApplication().getService(DatabaseBasicService.class);
-    private final EditRecordDao notebookDao = EditRecordDaoImpl.getInstance();
+    private final EditRecordDao editRecordDao = EditRecordDaoImpl.getInstance();
 
-    public static EditRecordServiceImpl getInstance() {
-        return ApplicationManager.getApplication().getService(EditRecordServiceImpl.class);
+    public static EditRecordService getInstance() {
+        return ApplicationManager.getApplication().getService(EditRecordService.class);
     }
 
-    private EditRecordServiceImpl() {
+    private EditRecordService() {
     }
 
     @Override
@@ -30,7 +30,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            notebookDao.insert(conn, ary);
+            editRecordDao.insert(conn, ary);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -39,11 +39,11 @@ public class EditRecordServiceImpl implements EditRecordService {
     }
 
     @Override
-    public EditRecord insert(EditRecord notebook) {
+    public EditRecord insert(EditRecord editRecord) {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return notebookDao.insert(conn, notebook);
+            return editRecordDao.insert(conn, editRecord);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -57,7 +57,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            notebookDao.delete(conn, id);
+            editRecordDao.delete(conn, id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -70,7 +70,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            notebookDao.update(conn, ary);
+            editRecordDao.update(conn, ary);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -79,11 +79,11 @@ public class EditRecordServiceImpl implements EditRecordService {
     }
 
     @Override
-    public void update(EditRecord notebook) {
+    public void update(EditRecord editRecord) {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            notebookDao.update(conn, notebook);
+            editRecordDao.update(conn, editRecord);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -96,7 +96,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return notebookDao.findById(conn, id);
+            return editRecordDao.findById(conn, id);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -110,7 +110,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            notebookDao.exchangeShowOrder(conn, showOrder1, showOrder2);
+            editRecordDao.exchangeShowOrder(conn, showOrder1, showOrder2);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -123,7 +123,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return notebookDao.findByTitle(conn, title);
+            return editRecordDao.findByTitle(conn, title);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -137,7 +137,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return notebookDao.findAll(conn);
+            return editRecordDao.findAll(conn);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -151,7 +151,7 @@ public class EditRecordServiceImpl implements EditRecordService {
         Connection conn = null;
         try {
             conn = databaseBasicService.getConnection();
-            return notebookDao.getTitles(conn);
+            return editRecordDao.getTitles(conn);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } finally {
@@ -162,49 +162,22 @@ public class EditRecordServiceImpl implements EditRecordService {
 
 
     @Override
-    public List<EditRecord> findAllByChapterId(Integer chapterId) {
+    public void deleteAllById(Integer id) {
+
+    }
+
+    @Override
+    public EditRecord findFirst() {
+        Connection conn = null;
+        try {
+            conn = databaseBasicService.getConnection();
+            return editRecordDao.findFirst(conn);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } finally {
+            databaseBasicService.closeResource(conn, null, null);
+        }
         return null;
     }
-
-    @Override
-    public void deleteAllByChapterId(Integer chapterId) {
-
-    }
-
-    @Override
-    public void deleteAllByNotebookId(Integer notebookId) {
-
-    }
-
-    @Override
-    public List<String> getTitles(String notebookTitle, String chapterTitle) {
-        return null;
-    }
-
-    @Override
-    public EditRecord findByTitle(String noteName, Integer chapterId) {
-        return null;
-    }
-
-    @Override
-    public EditRecord findByTitles(String noteTile, String chapterTitle, String notebookTitle) {
-        return null;
-    }
-
-    @Override
-    public List<String> getImageRecordsByNotebookId(int notebookId) {
-        return null;
-    }
-
-    @Override
-    public List<String> getImageRecordsByChapterId(int chapterId) {
-        return null;
-    }
-
-    @Override
-    public List<String> getImageRecordsByNoteId(int noteId) {
-        return null;
-    }
-
 
 }

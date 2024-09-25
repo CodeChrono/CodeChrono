@@ -9,6 +9,9 @@ public class MyEditorFactoryListener implements EditorFactoryListener {
 
     @Override
     public void editorCreated(EditorFactoryEvent event) {
+
+
+
         editor = event.getEditor();
         if (editor != null) {
             editor.getDocument().addDocumentListener(new ContentAwareDocumentListener());
