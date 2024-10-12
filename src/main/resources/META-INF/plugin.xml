@@ -6,10 +6,12 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>CodeChrono</name>
-    <version>1.0.3</version>
+    <version>1.0.3.1</version>
+
+    <!--<idea-version since-build="222" until-build="242.*"/>-->
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="924066173@qq.com">yuluo</vendor>
+    <vendor email="924066173@qq.com">codechrono</vendor>
 
      <description><![CDATA[
         <head>
@@ -50,7 +52,7 @@
 </ul>
 <p style='margin-top:20px'>Feedback and Support:</p>
 
-<p>If you encounter any bugs or have suggestions for improvement, please email us at <b>yuluo.guo@qq.com</b> or leave a
+<p>If you encounter any bugs or have suggestions for improvement, please email us at <b>924066173@qq.com</b> or leave a
     comment directly.</p>
 
 

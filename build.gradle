@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.codechrono"
-version = "1.0.3"
+version = "1.0.3.1"
 
 
 repositories {
@@ -20,10 +20,15 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.3.4")
+    version.set("2023.3.4",)
     type.set("IC") // Target IDE Platform IC-社区 IP-专业版
 
+
     //plugins.set(listOf( Plugin Dependencies ))
+}
+patchPluginXml {
+    setSinceBuild "222"
+    setUntilBuild("")
 }
 dependencies {
     implementation group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
@@ -35,6 +40,7 @@ dependencies {
     //implementation fileTree(dir: 'libs', include: ['*.jar'])
 
 }
+
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = "UTF-8"
