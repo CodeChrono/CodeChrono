@@ -5,6 +5,7 @@ import com.codechrono.idea.plugin.entity.StatisticType;
 import com.codechrono.idea.plugin.service.DailyStatisticInterface;
 import com.codechrono.idea.plugin.service.impl.DailyStatisticService;
 import com.intellij.ide.IdeEventQueue.EventDispatcher;
+import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -18,8 +19,8 @@ import java.util.List;
  */
 
 public final class FocusDispatcher implements EventDispatcher {
-
-    private DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
+    private static final Logger LOGGER = Logger.getInstance("FClog");
+    private final DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
     // 使用匿名数组列表初始化并添加元素
     public List<DailyStatistic> cacheDailyList = new ArrayList<DailyStatistic>();
 
@@ -27,12 +28,17 @@ public final class FocusDispatcher implements EventDispatcher {
     public boolean dispatch(@NotNull AWTEvent e) {
         if (e instanceof WindowEvent) {
             WindowEvent we = (WindowEvent) e;
-            System.out.println("*********WindowEvent: " + we.getID());
+           // long currentThreadId = Thread.currentThread().getId();
+            LOGGER.info("*********WindowEvent.getId: " + we.getID());
+
             if (we.getID() == WindowEvent.WINDOW_GAINED_FOCUS) {
+                LOGGER.info("*********getState—FOCUS: " +  Thread.currentThread().getState());
                 onIdeaGainFocus();
             } else if (we.getID() == WindowEvent.WINDOW_DEACTIVATED) {
+                LOGGER.info("*********getState-DEACTIVATED: " +  Thread.currentThread().getState());
                 onIdeaLostFocus();
             } else if (we.getID() == WindowEvent.WINDOW_ACTIVATED) {
+                LOGGER.info("*********getState-ACTIVATED: " +  Thread.currentThread().getState());
                 onIdeaGainFocus();
             }
 

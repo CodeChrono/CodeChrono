@@ -51,9 +51,9 @@ public class MainForm {
     private void showContent() {
         logger.info("logback showContent");
         if(!KeyService.validateKeyLocal()){
-            a1TextArea.setText("校验密钥失败，无法使用");
-            Messages.showInfoMessage( "校验密钥失败,如需继续使用请获取API Key", "CodeChrono");
+            a1TextArea.setText(message("contentJpanel.error.text"));
 
+            Messages.showMessageDialog(message("contentJpanel.error.message"), "CodeChrono", Messages.getWarningIcon());
             SettingDialog dialog = new SettingDialog(null);
             dialog.show();
             if(dialog.getExitCode() == DialogWrapper.OK_EXIT_CODE ){
@@ -69,10 +69,12 @@ public class MainForm {
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        Long endTime = calendar.getTime().getTime() + 86399000; //60s*60*24*1000-1000
+        //86399000=60s*60*24*1000-1000
+        Long endTime = calendar.getTime().getTime() + 86399000;
         if (StatisticType.WEEK.equals(selected)) {
             calendar.add(Calendar.DATE, -7);
-            endTime = calendar.getTime().getTime() + 604799000;//7*86400000-1000
+            //604799000=7*86400000-1000
+            endTime = calendar.getTime().getTime() + 604799000;
         }
         Long beginTime = calendar.getTime().getTime();
         a1TextArea.setText(new DataCenter().getDailyStatisticTeContent(beginTime, endTime).toString());

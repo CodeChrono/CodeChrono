@@ -53,7 +53,7 @@ public class EditRecordDaoImpl extends BaseDAO<EditRecord> implements EditRecord
     public EditRecord insert(Connection conn, EditRecord note) {
         String sql = "insert into edit_record(edit_type,edit_num,content,project_name,create_time) values(ifnull(?,3),?,?,?,?) ";
         update(conn, sql, note.getEditType(), note.getEditNum(), note.getContent(),  note.getProjectName(), note.getCreateTime());
-        String sqlSelect = SELECT_SQL + "  limit 1;";
+        String sqlSelect = SELECT_SQL + "limit 1";
         return getBean(conn, sqlSelect);
     }
 

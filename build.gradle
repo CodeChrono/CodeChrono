@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.codechrono"
-version = "1.0.3.1"
+version = "1.0.3.2"
 
 
 repositories {
@@ -28,7 +28,7 @@ intellij {
 }
 patchPluginXml {
     setSinceBuild "222"
-    setUntilBuild("")
+    setUntilBuild("243.21565.129")
 }
 dependencies {
     implementation group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'

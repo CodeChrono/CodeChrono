@@ -6,7 +6,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>CodeChrono</name>
-    <version>1.0.3.1</version>
+    <version>1.0.3.2</version>
 
     <!--<idea-version since-build="222" until-build="242.*"/>-->
 
@@ -122,7 +122,7 @@
     </projectListeners>
 
     <actions>
-        <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="测试名称" description="测试描述">
+        <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="配置" description="配置">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q" second-keystroke="shift ctrl E"/>
         </action>

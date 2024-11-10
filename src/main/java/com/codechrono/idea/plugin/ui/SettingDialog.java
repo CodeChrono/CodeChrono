@@ -14,7 +14,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.*;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 
 import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
@@ -23,7 +24,6 @@ public class SettingDialog extends DialogWrapper {
 
     private JPanel contentPane;
     private JTextField apiKeyTextField;
-    //private JBImageIcon wechatMiniPng;
     private JLabel wechatMiniPng;
 
     public SettingDialog(Project project) {
@@ -45,17 +45,19 @@ public class SettingDialog extends DialogWrapper {
         wechatMiniPng = new JLabel();
 
         try {
-            ImageIcon imageIcon = new ImageIcon(new URL("https://codechrono.cn/wechatMiniKeyPng.png"), "wechatMiniPng");
+            //java 20弃用 new URL的所有构造函数
+            ImageIcon imageIcon = new ImageIcon(((new URI("https://codechrono.cn/wechatMiniKeyPng.png")).toURL()), "wechatMiniPng");
+            //ImageIcon imageIcon = new ImageIcon((new URL("https://codechrono.cn/wechatMiniKeyPng.png")), "wechatMiniPng");
+            //ImageIcon imageIcon = new ImageIcon(new URL("https","codechrono.cn",80,"/wechatMiniKeyPng.png"), "wechatMiniPng");
             imageIcon.setImage(imageIcon.getImage().getScaledInstance(130, 130, Image.SCALE_DEFAULT));
             wechatMiniPng.setIcon(imageIcon);
-        } catch (MalformedURLException e) {
+        }  catch (URISyntaxException | MalformedURLException e) {
             throw new RuntimeException(e);
         }
 
         //wechatMiniPng.setIcon(new ImageIcon("images/wechatMiniPng.png"));
         //获取当前项目的绝对路径
         System.out.println(System.getProperty("user.dir"));
-
 
         return (JComponent) contentPane.add(
                 FormBuilder.createFormBuilder()
@@ -71,9 +73,9 @@ public class SettingDialog extends DialogWrapper {
         String apiKey = apiKeyTextField.getText().trim();
         if (KeyService.validateKeyServer(apiKey)) {
 
-            Messages.showMessageDialog("欢迎使用", "CodeChrono", Messages.getInformationIcon());
+            Messages.showMessageDialog(message("settings.welcome"), "CodeChrono", Messages.getInformationIcon());
         } else {
-            Messages.showInfoMessage(this.getWindow(), "联网校验失败", "CodeChrono");
+            Messages.showInfoMessage(this.getWindow(), message("settings.error"), "CodeChrono");
             return;
         }
 
@@ -95,7 +97,5 @@ public class SettingDialog extends DialogWrapper {
         return null;
     }
 
-
-    // 你可以根据需要添加更多的方法和逻辑
 }
 

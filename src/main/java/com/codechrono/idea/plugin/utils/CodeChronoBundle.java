@@ -2,11 +2,9 @@ package com.codechrono.idea.plugin.utils;
 
 
 import com.intellij.AbstractBundle;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.PropertyKey;
 
-import java.util.Locale;
+import org.jetbrains.annotations.*;
+
 
 public final class CodeChronoBundle extends AbstractBundle {
     @NonNls
@@ -19,7 +17,7 @@ public final class CodeChronoBundle extends AbstractBundle {
     //项目中可调用该静态方法，为组件文本赋值
     @NotNull
     public static String message(@NotNull @PropertyKey(resourceBundle = ONEDAY_BUNDLE) String key, @NotNull Object  ... params) {
-        //Locale.setDefault(Locale.ENGLISH);
         return INSTANCE.getMessage(key, params);
     }
+
 }
