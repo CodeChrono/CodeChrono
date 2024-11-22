@@ -3,6 +3,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * @author CodeChrono
+ */
 public class KeyUtils {
     /**
      * 使用SHA-256算法对字符串进行哈希处理
@@ -79,7 +82,7 @@ public class KeyUtils {
 
         String formattedKey = String.valueOf(getFormattedKey(generatedKey,5,"_"));
         formattedKey=formattedKey.substring(0,29);
-        System.out.println("传入"+formattedKey);
+        System.out.println("KeyUtils: formattedKey="+formattedKey);
 
         // 比较生成的密钥和预期的密钥
         return expectedKey.equals(formattedKey);

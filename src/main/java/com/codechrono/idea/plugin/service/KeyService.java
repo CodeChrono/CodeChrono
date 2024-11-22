@@ -4,7 +4,7 @@ import com.codechrono.idea.plugin.entity.EditRecord;
 import com.codechrono.idea.plugin.entity.KeyChrono;
 import com.codechrono.idea.plugin.service.impl.EditRecordService;
 import com.codechrono.idea.plugin.service.impl.KeyChronoService;
-import com.codechrono.idea.plugin.utils.CustomDataFormat;
+import com.codechrono.idea.plugin.utils.CustomDateFormat;
 import com.codechrono.idea.plugin.utils.HttpClientUtil;
 import com.codechrono.idea.plugin.utils.KeyUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -44,7 +44,7 @@ public class KeyService {
             keyChrono.setKeyCode(apiKey);
             keyChrono.setInput(parts[1]);
 
-            CustomDataFormat customDataFormat = new CustomDataFormat("EEE MMM dd HH:mm:ss zzz yyyy");
+            CustomDateFormat customDataFormat = new CustomDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
             keyChrono.setCreatedAt((customDataFormat.parse28(parts[2])).getTime());
             keyChrono.setUpdatedAt((customDataFormat.parse28(parts[3])).getTime());
 

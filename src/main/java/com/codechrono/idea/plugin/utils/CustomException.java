@@ -1,5 +1,9 @@
 package com.codechrono.idea.plugin.utils;
 
+/**
+ * @author CodeChrono
+ * 自定义异常
+ */
 public class CustomException extends RuntimeException {
 
     private String messageName;

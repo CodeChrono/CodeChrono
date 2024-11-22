@@ -5,7 +5,10 @@ import com.intellij.AbstractBundle;
 
 import org.jetbrains.annotations.*;
 
-
+/**
+ * @author CodeChrono
+ * 国际化工具类，项目中可调用该静态方法，为组件文本赋值
+ */
 public final class CodeChronoBundle extends AbstractBundle {
     @NonNls
     public static final String ONEDAY_BUNDLE = "CodeChronoBundle";

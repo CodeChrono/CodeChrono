@@ -29,7 +29,6 @@ public class ContentAwareDocumentListener implements DocumentListener {
             String curProjectName = "";
             Project[] openProjects = ProjectManager.getInstance().getOpenProjects();
             for (Project project : openProjects) {
-                //ProjectFileIndex fileIndex = ProjectFileIndex.SERVICE.getInstance(project);
                 ProjectFileIndex fileIndex = ProjectFileIndex.getInstance(project);
                 if (fileIndex.isInContent(virtualFile)
                         || fileIndex.isInLibrary(virtualFile)) {
@@ -47,9 +46,9 @@ public class ContentAwareDocumentListener implements DocumentListener {
             String removedText = event.getOldFragment().toString();
             // document.getCharsSequence().subSequence(offset, offset + oldLength).toString(); // 被替换或删除的文本
 
-
+            //System.out.println("insert:"+insertedText +"delete:"+ removedText);
             if (oldLength > 0 && !insertedText.isEmpty()) {
-                System.out.println("同时插入和删除");
+                System.out.println("Insert && delete at the same time ");
             }
 
             //修改内容存表

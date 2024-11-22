@@ -31,9 +31,14 @@ public class MainForm {
 
 
     public MainForm(Project project, ToolWindow toolWindow) {
-        System.out.println("测试*******.MainForm");
 
         refreshButton.addActionListener(e -> {
+            showContent();
+        });
+        dayRadioButton.addActionListener(e -> {
+            showContent();
+        });
+        weekRadioButton.addActionListener(e -> {
             showContent();
         });
     }

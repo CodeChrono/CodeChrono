@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author codechrono
  * 监听IDEA窗口的焦点变化，根据焦点所在应用情况，计算idea使用时间
  */
 
@@ -22,25 +23,25 @@ public final class FocusDispatcher implements EventDispatcher {
     private static final Logger LOGGER = Logger.getInstance("FClog");
     private final DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
     // 使用匿名数组列表初始化并添加元素
-    public List<DailyStatistic> cacheDailyList = new ArrayList<DailyStatistic>();
+    public static List<DailyStatistic> cacheDailyList = new ArrayList<DailyStatistic>();
 
     @Override
     public boolean dispatch(@NotNull AWTEvent e) {
         if (e instanceof WindowEvent) {
             WindowEvent we = (WindowEvent) e;
-           // long currentThreadId = Thread.currentThread().getId();
-            LOGGER.info("*********WindowEvent.getId: " + we.getID());
 
-            if (we.getID() == WindowEvent.WINDOW_GAINED_FOCUS) {
-                LOGGER.info("*********getState—FOCUS: " +  Thread.currentThread().getState());
+            LOGGER.info("*********dispatch.getId: " + we.getID());
+            if (we.getID() == WindowEvent.WINDOW_ACTIVATED || we.getID() == WindowEvent.WINDOW_OPENED) {
+                LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
                 onIdeaGainFocus();
+
             } else if (we.getID() == WindowEvent.WINDOW_DEACTIVATED) {
-                LOGGER.info("*********getState-DEACTIVATED: " +  Thread.currentThread().getState());
+                LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
                 onIdeaLostFocus();
-            } else if (we.getID() == WindowEvent.WINDOW_ACTIVATED) {
-                LOGGER.info("*********getState-ACTIVATED: " +  Thread.currentThread().getState());
-                onIdeaGainFocus();
             }
+
+            // 判断窗口事件的ID是否是窗口激活、窗口失去焦点、窗口获得焦点、窗口失去焦点、窗口关闭、窗口关闭完成、窗口打开
+            //WINDOW_ACTIVATED、WINDOW_DEACTIVATED、WINDOW_GAINED_FOCUS、WINDOW_LOST_FOCUS、WINDOW_CLOSING、WINDOW_CLOSED、WINDOW_OPENED
 
         }
         return false;
@@ -48,10 +49,11 @@ public final class FocusDispatcher implements EventDispatcher {
 
     private void onIdeaGainFocus() {
 
-        System.out.println("*******IDEA 获得焦点*******");
+        System.out.println("*******IDEA get Focus*******");
 
         for (DailyStatistic daily : cacheDailyList) {
             if (Thread.currentThread().getId() == (daily.getThreadId())) {
+                System.out.println("*******Dispatcher get Focus：return");
                 return;
             }
         }
@@ -60,12 +62,20 @@ public final class FocusDispatcher implements EventDispatcher {
         data.setBeginTime(System.currentTimeMillis());
         data.setStatisticType(StatisticType.TMP);
         data.setThreadId(Thread.currentThread().getId());
+        System.out.println("*******Dispatcher onIdeaGainFocus, id:" + data.getThreadId());
         cacheDailyList.add(data);
     }
 
-    private void onIdeaLostFocus() {
+    public void onIdeaLostFocus() {
+        onIdeaLostFocus(true);
+    }
 
-        System.out.println("********IDEA 应用开始切换，失去焦点******");
+    /**
+     * @param clearCache 不清除缓存
+     */
+    public void onIdeaLostFocus(boolean clearCache) {
+
+        System.out.println("********IDEA app begin change ,lost focus******");
         for (DailyStatistic daily : cacheDailyList) {
             if (Thread.currentThread().getId() == (daily.getThreadId())) {
                 List<DailyStatistic> dailyStatisticList = dailyStatisticService.queryOneDayEditRecord(daily.getBeginTime());
@@ -82,11 +92,14 @@ public final class FocusDispatcher implements EventDispatcher {
                     dailyStatisticService.insert(daily);
                 }
 
-                System.out.println("lost丢失" + daily.tostring());
+                System.out.println("*******IDEA LostFocus,id:" + daily.getThreadId());
                 cacheDailyList.remove(daily);
-                return;
+
+                onIdeaGainFocus();
+
             }
         }
+
 
     }
 }

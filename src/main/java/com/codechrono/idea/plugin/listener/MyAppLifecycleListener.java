@@ -15,9 +15,9 @@ import java.util.List;
 public class MyAppLifecycleListener implements AppLifecycleListener , ProjectLifecycleListener {
     @Override
     public void appFrameCreated(List<String> commandLineArgs) {
-        System.out.println("appFrameCreated");
+
         if(!KeyService.validateKeyLocal()){
-            System.out.println("appFrameCreated校验apiKey失败，无法使用");
+            System.out.println("appFrameCreated Failed to verify key");
            return ;
         }
 

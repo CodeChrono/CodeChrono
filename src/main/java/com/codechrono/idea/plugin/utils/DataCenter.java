@@ -1,6 +1,7 @@
 package com.codechrono.idea.plugin.utils;
 
 import com.codechrono.idea.plugin.entity.DailyStatistic;
+import com.codechrono.idea.plugin.listener.FocusDispatcher;
 import com.codechrono.idea.plugin.service.DailyStatisticInterface;
 import com.codechrono.idea.plugin.service.impl.DailyStatisticService;
 
@@ -8,6 +9,10 @@ import java.util.*;
 
 import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
 
+/**
+ * @author CodeChrono
+ * 主界面数据中心
+ */
 public class DataCenter {
     public static String fileName = "CodeChrono";
     static StringBuffer teContent;
@@ -45,7 +50,7 @@ public class DataCenter {
 
 
         teContent = new StringBuffer();
-        teContent.append("\nProject-Specific Metrics");
+        teContent.append("\nProject Statistic Overview");
         int allNum = 0;
         int deleteNum = 0;
         long useTime = 0;
@@ -81,6 +86,8 @@ public class DataCenter {
     }
 
     public StringBuffer getDailyStatisticTeContentZh(Long beginTime, Long endTime) {
+        FocusDispatcher focusDispatcher = new FocusDispatcher();
+        focusDispatcher.onIdeaLostFocus(false);
 
         List<DailyStatistic> dailyStatistic = dailyStatisticService.getOneDayDailyStatistic(beginTime, endTime);
         if (dailyStatistic == null) {

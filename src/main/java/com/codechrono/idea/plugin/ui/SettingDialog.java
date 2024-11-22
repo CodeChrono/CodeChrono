@@ -57,7 +57,7 @@ public class SettingDialog extends DialogWrapper {
 
         //wechatMiniPng.setIcon(new ImageIcon("images/wechatMiniPng.png"));
         //获取当前项目的绝对路径
-        System.out.println(System.getProperty("user.dir"));
+        System.out.println("user.dir:"+System.getProperty("user.dir"));
 
         return (JComponent) contentPane.add(
                 FormBuilder.createFormBuilder()

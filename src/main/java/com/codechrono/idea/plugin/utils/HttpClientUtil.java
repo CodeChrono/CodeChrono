@@ -21,14 +21,14 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
-
 /**
- * HttpCLint工具类，提供了post，get请求
-
+ * @author CodeChrono
+ * 国际化工具类，项目中可调用该静态方法，为组件文本赋值
  */
 public class HttpClientUtil {
 
@@ -54,11 +54,8 @@ public class HttpClientUtil {
     // 请求配置
     private static RequestConfig requestConfig;
 
-
     static {
-
         try {
-            //System.out.println("初始化HttpClientTest~~~开始");
             SSLContextBuilder builder = new SSLContextBuilder();
             builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
@@ -98,7 +95,7 @@ public class HttpClientUtil {
     public static String get(String appendUrl) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // 创建HttpGet实例
-        HttpGet httpGet = new HttpGet("https://api.codechrono.cn/"+appendUrl);//本地调试用
+        HttpGet httpGet = new HttpGet("https://api.codechrono.cn/" + appendUrl);//本地调试用
         httpGet.setHeader("Content-Type", CONTENT_TYPE_TEXT_PLAIN);
         httpGet.setHeader("Connection", "keep-alive");
         httpGet.setHeader("User-Agent", "CodeChronoAgent/1.0");
@@ -113,7 +110,7 @@ public class HttpClientUtil {
             String responseBody = EntityUtils.toString(response.getEntity());
 
             // 打印响应内容
-            System.out.println(responseBody);
+            System.out.println("HttpClinetUtils.repos：" + responseBody);
             return responseBody;
         } catch (Exception e) {
             e.printStackTrace();

@@ -4,8 +4,12 @@ import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class CustomDataFormat extends SimpleDateFormat {
-    public CustomDataFormat(String pattern) {
+/**
+ * @author CodeChrono
+ * 日期格式化
+ */
+public class CustomDateFormat extends SimpleDateFormat {
+    public CustomDateFormat(String pattern) {
         super(pattern);
     }
 
@@ -63,7 +67,7 @@ public class CustomDataFormat extends SimpleDateFormat {
             return super.parse(source);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Failed to parse date time string:  " + source);
+            System.out.println("CustomDate:Failed to parse date time string:  " + source);
         }
 
         // 假设CST代表的时区偏移量是固定的，比如中国标准时间（这实际上是不准确的，只是作为示例）
