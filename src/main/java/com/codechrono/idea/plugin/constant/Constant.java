@@ -2,6 +2,7 @@ package com.codechrono.idea.plugin.constant;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 
 public interface Constant {
@@ -34,5 +35,13 @@ public interface Constant {
     Path DB_FILE_PATH = PROJECT_DB_DIRECTORY_PATH.resolve("codechrono.db");
 
     String EMAIL_GMAIL = "924066173@qq.com";
+
+
+    /**
+     * Is the language of this plugin Chinese?
+     */
+    Boolean languageIsZh = "zh".equals(Locale.getDefault().getLanguage());
+
+
 
 }

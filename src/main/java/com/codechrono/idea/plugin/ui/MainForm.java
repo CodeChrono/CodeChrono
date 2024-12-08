@@ -27,6 +27,8 @@ public class MainForm {
     private JRadioButton dayRadioButton;
     private JRadioButton weekRadioButton;
     private JLabel scopeLabel;
+    private JButton settingButton;
+    private JButton helpButton;
     private ButtonGroup type;
 
 
@@ -41,6 +43,26 @@ public class MainForm {
         weekRadioButton.addActionListener(e -> {
             showContent();
         });
+        settingButton.addActionListener(e -> {
+            SettingDialog dialog = new SettingDialog(null);
+            dialog.show();
+            if(dialog.getExitCode() == DialogWrapper.OK_EXIT_CODE ){
+                refreshButton.doClick();
+            }
+        });
+        helpButton.addActionListener(e -> {
+            HelpDialog dialog = new HelpDialog(null);
+            dialog.show();
+            if(dialog.getExitCode() == DialogWrapper.OK_EXIT_CODE ){
+                refreshButton.doClick();
+            }
+        });
+
+//        jb_note.addMouseListener(new java.awt.event.MouseAdapter() {
+//            public void mouseClicked(java.awt.event.MouseEvent evt) {
+//                showContent();
+//            }
+//        });
     }
 
     public JPanel getContentJpanel() {

@@ -43,7 +43,7 @@ public class KeyService {
 
             keyChrono.setKeyCode(apiKey);
             keyChrono.setInput(parts[1]);
-
+            
             CustomDateFormat customDataFormat = new CustomDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
             keyChrono.setCreatedAt((customDataFormat.parse28(parts[2])).getTime());
             keyChrono.setUpdatedAt((customDataFormat.parse28(parts[3])).getTime());

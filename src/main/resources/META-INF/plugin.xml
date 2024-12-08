@@ -5,7 +5,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>CodeChrono</name>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
 
     <!--<idea-version since-build="222" until-build="242.*"/>-->
 
@@ -86,14 +86,14 @@
     ]]></description>
     <change-notes><![CDATA[
         <ul>
-          <li>Expired API modifications</li>
-          <li>International content supplement</li>
-          <li>project statistics trigger conditions: application switch trigger(old), refresh event trigger (new)</li>
-          <li>Day/Week button toggles trigger refresh event</li>
-          <li>过期API修改</li>
-          <li>国际化内容补充</li>
-          <li>项目统计触发条件：应用切换触发(旧)，刷新事件触发(新增)</li>
-          <li>天/周按钮切换触发刷新事件</li>
+          <li>Add settings, help button pop-ups</li>
+          <li>Help screen displays data source, event trigger conditions</li>
+          <li>Settings interface can retrieve API key</li>
+          <li>Delete operation: shortcut key, right mouse click setting interface</li>
+          <li>增加设置、帮助按钮弹窗</li>
+          <li>帮助界面显示数据来源、事件触发条件</li>
+          <li>设置界面可重新获取API key</li>
+          <li>删除操作：快捷键、鼠标右键弹设置界面</li>
 
         </ul>
     ]]></change-notes>
@@ -133,12 +133,13 @@
                   topic="com.intellij.openapi.editor.event.EditorFactoryListener"/>
     </projectListeners>
 
-    <actions>
-        <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="配置" description="配置">
-            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q" second-keystroke="shift ctrl E"/>
-        </action>
-    </actions>
+<!--    快捷键。鼠标右键-->
+<!--    <actions>-->
+<!--        <action id="test" class="com.codechrono.idea.plugin.action.actionClass" text="配置" description="配置">-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl Q" second-keystroke="shift ctrl E"/>-->
+<!--        </action>-->
+<!--    </actions>-->
 
 </idea-plugin>
 

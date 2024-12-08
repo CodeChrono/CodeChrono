@@ -21,7 +21,6 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -93,21 +92,39 @@ public class HttpClientUtil {
     }
 
     public static String get(String appendUrl) {
+        return get("https://api.codechrono.cn/", appendUrl);
+    }
+
+    /**
+     * @param url       接口地址
+     * @param appendUrl 接口地址后缀
+     * @return
+     */
+    public static String get(String url, String appendUrl) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         // 创建HttpGet实例
-        HttpGet httpGet = new HttpGet("https://api.codechrono.cn/" + appendUrl);//本地调试用
+        HttpGet httpGet = new HttpGet(url + appendUrl);//本地调试用
         httpGet.setHeader("Content-Type", CONTENT_TYPE_TEXT_PLAIN);
         httpGet.setHeader("Connection", "keep-alive");
         httpGet.setHeader("User-Agent", "CodeChronoAgent/1.0");
         httpGet.setHeader("Accept", "*/*");
-        httpGet.setHeader("Accept-Language", "zh-CN,zh;q=0.8");
+        // httpGet.setHeader("Accept-Language", "zh-CN,zh;q=0.8");
+        httpGet.setHeader("Accept-Charset", CHARSET_UTF_8);
+
 
         try {
             // 执行GET请求
             HttpResponse response = httpClient.execute(httpGet);
 
+            // 检查响应状态码
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != 200) {
+                throw new RuntimeException("Failed : HTTP error code : " + statusCode);
+            }
+
+
             // 获取响应实体
-            String responseBody = EntityUtils.toString(response.getEntity());
+            String responseBody = EntityUtils.toString(response.getEntity(), CHARSET_UTF_8);
 
             // 打印响应内容
             System.out.println("HttpClinetUtils.repos：" + responseBody);
@@ -117,6 +134,8 @@ public class HttpClientUtil {
         }
         return null;
     }
+
+
 
 
 }
