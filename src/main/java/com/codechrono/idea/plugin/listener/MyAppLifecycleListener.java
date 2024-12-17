@@ -6,7 +6,6 @@ import com.intellij.ide.IdeEventQueue;
 import com.intellij.openapi.Disposable;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.editor.EditorFactory;
-
 import com.intellij.openapi.project.impl.ProjectLifecycleListener;
 import com.intellij.openapi.util.Disposer;
 
@@ -24,9 +23,9 @@ public class MyAppLifecycleListener implements AppLifecycleListener , ProjectLif
         ApplicationManager.getApplication().invokeLater(() -> {
             // 注册一个Disposable对象，在插件卸载时调用dispose方法，内存优化
             Disposable disposable = Disposer.newDisposable("CodeChronoListener");
-            // 在这里注册EditorFactoryListener
+            // 注册一个EditorFactoryListener，在编辑器创建时调用
             EditorFactory.getInstance().addEditorFactoryListener(new MyEditorFactoryListener(), disposable);
-            //焦点
+            // 注册一个IdeEventQueue.EventDispatcher，在焦点事件发生时调用
             IdeEventQueue.getInstance().addDispatcher(new FocusDispatcher(), disposable);
         });
     }

@@ -8,7 +8,6 @@ import com.intellij.ide.IdeEventQueue.EventDispatcher;
 import com.intellij.openapi.diagnostic.Logger;
 import org.jetbrains.annotations.NotNull;
 
-
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -23,7 +22,8 @@ public final class FocusDispatcher implements EventDispatcher {
     private static final Logger LOGGER = Logger.getInstance("FClog");
     private final DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
     // 使用匿名数组列表初始化并添加元素
-    public static List<DailyStatistic> cacheDailyList = new ArrayList<DailyStatistic>();
+    public static List<DailyStatistic> cacheDailyList = new ArrayList<>();
+
 
     @Override
     public boolean dispatch(@NotNull AWTEvent e) {
@@ -32,11 +32,11 @@ public final class FocusDispatcher implements EventDispatcher {
 
             LOGGER.info("*********dispatch.getId: " + we.getID());
             if (we.getID() == WindowEvent.WINDOW_ACTIVATED || we.getID() == WindowEvent.WINDOW_OPENED) {
-                LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
+                //LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
                 onIdeaGainFocus();
 
             } else if (we.getID() == WindowEvent.WINDOW_DEACTIVATED) {
-                LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
+                //LOGGER.info("*********getState-ACTIVATED: " + Thread.currentThread().getState());
                 onIdeaLostFocus();
             }
 
@@ -50,9 +50,9 @@ public final class FocusDispatcher implements EventDispatcher {
     private void onIdeaGainFocus() {
 
         System.out.println("*******IDEA get Focus*******");
-
+        long currentThreadId = Thread.currentThread().getId();
         for (DailyStatistic daily : cacheDailyList) {
-            if (Thread.currentThread().getId() == (daily.getThreadId())) {
+            if (currentThreadId == (daily.getThreadId())) {
                 System.out.println("*******Dispatcher get Focus：return");
                 return;
             }
@@ -61,27 +61,29 @@ public final class FocusDispatcher implements EventDispatcher {
         DailyStatistic data = new DailyStatistic();
         data.setBeginTime(System.currentTimeMillis());
         data.setStatisticType(StatisticType.TMP);
-        data.setThreadId(Thread.currentThread().getId());
+        data.setThreadId(currentThreadId);
         System.out.println("*******Dispatcher onIdeaGainFocus, id:" + data.getThreadId());
         cacheDailyList.add(data);
     }
 
     public void onIdeaLostFocus() {
-        onIdeaLostFocus(true);
+        onIdeaLostFocus(false);
     }
 
     /**
-     * @param clearCache 不清除缓存
+     * @param createEvent 是否创建新的焦点事件
      */
-    public void onIdeaLostFocus(boolean clearCache) {
+    public void onIdeaLostFocus(boolean createEvent) {
 
         System.out.println("********IDEA app begin change ,lost focus******");
+
+        List <DailyStatistic> deleList = new ArrayList<>();
         for (DailyStatistic daily : cacheDailyList) {
-            if (Thread.currentThread().getId() == (daily.getThreadId())) {
+            long currentThreadId = Thread.currentThread().getId();
+            if (currentThreadId == (daily.getThreadId())) {
                 List<DailyStatistic> dailyStatisticList = dailyStatisticService.queryOneDayEditRecord(daily.getBeginTime());
 
                 for (DailyStatistic data : dailyStatisticList) {
-
                     daily.setInsertNum(data.getInsertNum());
                     daily.setDeleteNum(data.getDeleteNum());
                     daily.setCodeRatio(data.getCodeRatio());
@@ -91,13 +93,16 @@ public final class FocusDispatcher implements EventDispatcher {
                     daily.setUseTime((int) (daily.getEndTime() - daily.getBeginTime()));
                     dailyStatisticService.insert(daily);
                 }
-
                 System.out.println("*******IDEA LostFocus,id:" + daily.getThreadId());
-                cacheDailyList.remove(daily);
-
-                onIdeaGainFocus();
-
+                deleList.add(daily);
             }
+        }
+
+        if(deleList!=null && deleList.size() > 0) {
+            cacheDailyList.removeAll(deleList);
+        }
+        if(createEvent){
+            onIdeaGainFocus();
         }
 
 

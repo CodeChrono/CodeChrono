@@ -5,7 +5,10 @@ import com.codechrono.idea.plugin.listener.FocusDispatcher;
 import com.codechrono.idea.plugin.service.DailyStatisticInterface;
 import com.codechrono.idea.plugin.service.impl.DailyStatisticService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
 
@@ -14,26 +17,11 @@ import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
  * 主界面数据中心
  */
 public class DataCenter {
-    public static String fileName = "CodeChrono";
-    static StringBuffer teContent;
 
+    private static final DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
 
-    private final DailyStatisticInterface dailyStatisticService = DailyStatisticService.getInstance();
+    public  static StringBuffer getDailyStatisticTeContent(Long beginTime, Long endTime) {
 
-
-/*    public static StringBuffer getTeContentTmp() {
-        teContent = new StringBuffer("您今天使用idea【5小时30分钟20秒】，闲置时间【1小时2分钟20秒】，时间利用率33%");
-        teContent.append("\n  总字符量【285】，回退数【30】");
-        teContent.append("\n以下是按项目展示内容:");
-        teContent.append("\n  【mall】总字符量【200】，回退数【25】，占用时间【3小时2分钟20秒】");
-        teContent.append("\n  【tyAi】总字符量【80】，回退数【3】，占用时间【3小时2分钟20秒】");
-        teContent.append("\n  【mall】总字符量【5】，回退数【2】，占用时间【3小时2分钟20秒】");
-        return teContent;
-
-
-    }*/
-
-    public StringBuffer getDailyStatisticTeContent(Long beginTime, Long endTime) {
         if ("zh".equals(Locale.getDefault().getLanguage())) {
             return getDailyStatisticTeContentZh(beginTime, endTime);
         } else {
@@ -41,15 +29,18 @@ public class DataCenter {
         }
     }
 
-    public StringBuffer getDailyStatisticTeContentEu(Long beginTime, Long endTime) {
+    public static StringBuffer getDailyStatisticTeContentEu(Long beginTime, Long endTime) {
+
+        FocusDispatcher focusDispatcher = new FocusDispatcher();
+        focusDispatcher.onIdeaLostFocus(true);
+
         List<DailyStatistic> dailyStatistic = dailyStatisticService.getOneDayDailyStatistic(beginTime, endTime);
         if (dailyStatistic == null) {
             dailyStatistic = new ArrayList<>();
 
         }
 
-
-        teContent = new StringBuffer();
+        StringBuffer teContent = new StringBuffer();
         teContent.append("\nProject Statistic Overview");
         int allNum = 0;
         int deleteNum = 0;
@@ -85,16 +76,15 @@ public class DataCenter {
         return teContent;
     }
 
-    public StringBuffer getDailyStatisticTeContentZh(Long beginTime, Long endTime) {
-        FocusDispatcher focusDispatcher = new FocusDispatcher();
-        focusDispatcher.onIdeaLostFocus(false);
+    public static StringBuffer getDailyStatisticTeContentZh(Long beginTime, Long endTime) {
+
 
         List<DailyStatistic> dailyStatistic = dailyStatisticService.getOneDayDailyStatistic(beginTime, endTime);
         if (dailyStatistic == null) {
             dailyStatistic = new ArrayList<>();
         }
 
-        teContent = new StringBuffer();
+        StringBuffer teContent = new StringBuffer();
         teContent.append("\n项目详情");
         int allNum = 0;
         int deleteNum = 0;
@@ -193,7 +183,7 @@ public class DataCenter {
 
     }
     */
-    public String longToTimeString(long timestamp) {
+    public static String longToTimeString(long timestamp) {
         timestamp = timestamp / 1000;
         // 除以3600秒(1小时)得到小时数
         long hours = timestamp / 3600;

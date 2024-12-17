@@ -86,15 +86,12 @@
     ]]></description>
     <change-notes><![CDATA[
         <ul>
-          <li>Add settings, help button pop-ups</li>
-          <li>Help screen displays data source, event trigger conditions</li>
-          <li>Settings interface can retrieve API key</li>
-          <li>Delete operation: shortcut key, right mouse click setting interface</li>
-          <li>增加设置、帮助按钮弹窗</li>
-          <li>帮助界面显示数据来源、事件触发条件</li>
-          <li>设置界面可重新获取API key</li>
-          <li>删除操作：快捷键、鼠标右键弹设置界面</li>
-
+          <li>The maximum compatible version range has been modified</li>
+          <li>Optimization of internal structure</li>
+          <li>Fixed occasional errors</li>
+          <li>最大兼容版本范围修改</li>
+          <li>内部结构优化</li>
+          <li>修复偶现报错</li>
         </ul>
     ]]></change-notes>
 

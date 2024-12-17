@@ -2,8 +2,9 @@ package com.codechrono.idea.plugin.utils;
 
 
 import com.intellij.AbstractBundle;
-
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.PropertyKey;
 
 /**
  * @author CodeChrono

@@ -1,9 +1,7 @@
 package com.codechrono.idea.plugin.service.impl;
 
 import com.codechrono.idea.plugin.dao.KeyChronoDao;
-
 import com.codechrono.idea.plugin.dao.impl.KeyChronoDaoImpl;
-
 import com.codechrono.idea.plugin.entity.KeyChrono;
 import com.codechrono.idea.plugin.service.DatabaseBasicService;
 import com.codechrono.idea.plugin.service.KeyChronoInterface;

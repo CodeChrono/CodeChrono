@@ -1,14 +1,13 @@
 package com.codechrono.idea.plugin.listener;
 
 import com.codechrono.idea.plugin.entity.EditRecord;
+import com.codechrono.idea.plugin.entity.EditType;
 import com.codechrono.idea.plugin.service.EditRecordInterface;
 import com.codechrono.idea.plugin.service.impl.EditRecordService;
-import com.codechrono.idea.plugin.entity.EditType;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.event.DocumentEvent;
 import com.intellij.openapi.editor.event.DocumentListener;
-
 import com.intellij.openapi.fileEditor.FileDocumentManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;

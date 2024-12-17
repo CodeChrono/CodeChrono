@@ -3,6 +3,7 @@ package com.codechrono.idea.plugin.dao.impl;
 import com.codechrono.idea.plugin.dao.BaseDAO;
 import com.codechrono.idea.plugin.dao.EditRecordDao;
 import com.codechrono.idea.plugin.entity.EditRecord;
+
 import java.sql.Connection;
 import java.util.List;
 

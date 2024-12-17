@@ -1,7 +1,6 @@
 package com.codechrono.idea.plugin.dao.impl;
 
 import com.codechrono.idea.plugin.dao.BaseDAO;
-
 import com.codechrono.idea.plugin.dao.KeyChronoDao;
 import com.codechrono.idea.plugin.entity.KeyChrono;
 

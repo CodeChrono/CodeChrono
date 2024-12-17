@@ -1,7 +1,7 @@
 package com.codechrono.idea.plugin.dao.impl;
 
-import com.codechrono.idea.plugin.dao.DailyStatisticDao;
 import com.codechrono.idea.plugin.dao.BaseDAO;
+import com.codechrono.idea.plugin.dao.DailyStatisticDao;
 import com.codechrono.idea.plugin.entity.DailyStatistic;
 
 import java.sql.Connection;

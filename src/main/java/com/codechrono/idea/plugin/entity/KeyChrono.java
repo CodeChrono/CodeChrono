@@ -1,7 +1,5 @@
 package com.codechrono.idea.plugin.entity;
 
-import java.util.Date;
-
 public class KeyChrono {
     private String keyCode;
     private String input;

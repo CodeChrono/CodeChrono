@@ -1,14 +1,11 @@
 package com.codechrono.idea.plugin.ui;
 
 import com.codechrono.idea.plugin.service.KeyService;
-
-
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.util.ui.FormBuilder;
-
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -16,7 +13,6 @@ import java.awt.*;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 
 import static com.codechrono.idea.plugin.utils.CodeChronoBundle.message;
 
